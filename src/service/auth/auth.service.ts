@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import * as bcrypr from 'bcrypt';
+import * as bcryprt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
 import IUser from 'src/Interfaces/users/IUser';
 import LoginDTO from 'src/DTOs/auth/LoginDTO';
+import LoginResponseDTO from 'src/DTOs/auth/LoginResponseDTO';
 
 @Injectable()
 export class AuthService {
@@ -32,7 +33,7 @@ export class AuthService {
    }
 
    public async validatePassword(raw: string, encoded: string): Promise<boolean> {
-      return await bcrypr.compare(raw, encoded);
+      return await bcryprt.compare(raw, encoded);
    }
 
    private async getUser(data: LoginDTO): Promise<IUser> {
@@ -42,7 +43,7 @@ export class AuthService {
       return user;
    }
 
-   async login(data: LoginDTO): Promise<object> {
+   async login(data: LoginDTO): Promise<LoginResponseDTO> {
       const user: IUser | null = await this.getUser(data);
       if (!user) return null;
       const token: string = await this.generateToken(user.cpf);

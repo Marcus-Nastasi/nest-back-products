@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Headers, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
 import { Response } from 'express';
-import UpdateDTO from 'src/DTOs/users/UpdateDTO';
 
+import UpdateDTO from 'src/DTOs/users/UpdateDTO';
 import UserRegisterDTO from 'src/DTOs/users/UserRegisterDTO';
 import IUser from 'src/Interfaces/users/IUser';
 import { AuthService } from 'src/service/auth/auth.service';
@@ -12,7 +12,7 @@ export class UsersController {
    constructor(private readonly service: UsersService, private readonly auth: AuthService) {}
 
    @Get('')
-   async get(@Headers('authorization') token: string, @Res() res: Response): Promise<object> {
+   async get(@Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<Array<IUser>>>> {
       if (!token) return res.status(HttpStatus.FORBIDDEN).end();
       const user = await this.auth.validateToken(token.replace('Bearer ', ''));
       if (!user) return res.status(HttpStatus.FORBIDDEN).end();
@@ -21,7 +21,7 @@ export class UsersController {
    }
 
    @Post('register')
-   async register(@Body() data: UserRegisterDTO, @Headers('authorization') token: string, @Res() res: Response) {
+   async register(@Body() data: UserRegisterDTO, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IUser>>> {
       if (!token) return res.status(HttpStatus.FORBIDDEN).end();
       const user = await this.auth.validateToken(token.replace('Bearer ', ''));
       if (!user) return res.status(HttpStatus.FORBIDDEN).end();
@@ -30,7 +30,7 @@ export class UsersController {
    }
 
    @Put('update/:id')
-   async update(@Param('id') id: string, @Body() data: UpdateDTO, @Headers('authorization') token: string, @Res() res: Response) {
+   async update(@Param('id') id: string, @Body() data: UpdateDTO, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IUser>>> {
       if (!token) return res.status(HttpStatus.FORBIDDEN).end();
       const user = await this.auth.validateToken(token.replace('Bearer ', ''));
       if (!user) return res.status(HttpStatus.FORBIDDEN).end();
@@ -39,7 +39,7 @@ export class UsersController {
    }
 
    @Delete('delete/:id')
-   async delete(@Param('id') id: string, @Headers('authorization') token: string, @Res() res: Response) {
+   async delete(@Param('id') id: string, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IUser>>> {
       if (!token) return res.status(HttpStatus.FORBIDDEN).end();
       const user = await this.auth.validateToken(token.replace('Bearer ', ''));
       if (!user) return res.status(HttpStatus.FORBIDDEN).end();
