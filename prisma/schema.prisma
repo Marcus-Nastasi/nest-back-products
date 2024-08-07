@@ -17,6 +17,7 @@ model users {
    id    Int    @id @default(autoincrement())
    name  String
    cpf String
+   password String
 }
 
 model products {
