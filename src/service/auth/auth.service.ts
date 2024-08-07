@@ -10,7 +10,7 @@ import LoginDTO from 'src/DTOs/auth/LoginDTO';
 export class AuthService {
    constructor(private readonly prisma: PrismaService) {}
 
-   private async generateToken(cpf: string): Promise<string> {
+   public async generateToken(cpf: string): Promise<string> {
       try {
          const token: string = jwt.sign(
             { cpf: cpf },
@@ -23,15 +23,15 @@ export class AuthService {
       }
    }
 
-   private async validateToken(token: string) {
+   public async validateToken(token: string) {
       try {
          return jwt.verify(token, 'sct');
       } catch(e: any) {
-         console.log(e)
+         return '';
       }
    }
 
-   private async validatePassword(raw: string, encoded: string): Promise<boolean> {
+   public async validatePassword(raw: string, encoded: string): Promise<boolean> {
       return await bcrypr.compare(raw, encoded);
    }
 
