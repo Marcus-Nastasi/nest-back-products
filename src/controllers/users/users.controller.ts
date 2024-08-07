@@ -21,10 +21,7 @@ export class UsersController {
    }
 
    @Post('register')
-   async register(@Body() data: UserRegisterDTO, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IUser>>> {
-      if (!token) return res.status(HttpStatus.FORBIDDEN).end();
-      const user = await this.auth.validateToken(token.replace('Bearer ', ''));
-      if (!user) return res.status(HttpStatus.FORBIDDEN).end();
+   async register(@Body() data: UserRegisterDTO, @Res() res: Response): Promise<Response<Promise<IUser>>> {
       const new_user: IUser = await this.service.register(data); 
       return res.status(201).json({ new_user });
    }

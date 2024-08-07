@@ -16,6 +16,7 @@ export class UsersService {
    }
 
    async register(data: UserRegisterDTO): Promise<IUser> {
+      if (!data.password) return null;
       data.password = await bcrypt.hash(data.password, 10);
       return await this.prisma.users.create({ data });
    }
