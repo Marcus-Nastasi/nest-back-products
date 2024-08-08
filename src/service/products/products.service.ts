@@ -12,6 +12,14 @@ export class ProductsService {
       return await this.prisma.products.findMany();
    }
 
+   async search(name: string): Promise<Array<IProdutc>> {
+      const products: Array<IProdutc> = await this
+         .prisma
+         .$queryRaw
+         `SELECT * FROM products WHERE LOWER(name) LIKE CONCAT('%', CONCAT(${name}, '%'));`;
+      return products;
+   }
+
    async register(data: ProductRegisterDTO): Promise<IProdutc> {
       return await this.prisma.products.create({ data });
    }

@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Headers, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
 import { Response } from 'express';
+import { JwtPayload } from 'jsonwebtoken';
 
 import ProductRegisterDTO from 'src/DTOs/products/ProductRegisterDTO';
 import IProdutc from 'src/Interfaces/products/IProduct';
@@ -25,12 +26,30 @@ export class ProductsController {
          .json({ products });
    }
 
+   @Post('search')
+   async search(@Body() data: { name: string }, @Headers('authorization') token: string, @Res() res: Response) {
+      if (!token) return res
+         .status(HttpStatus.FORBIDDEN)
+         .end();
+      const user: string | JwtPayload = await this.auth.validateToken(token.replace('Bearer ', ''));
+      if (!user) return res
+         .status(HttpStatus.FORBIDDEN)
+         .end();
+      const products: Array<IProdutc> = await this.service.search(data.name);
+      if (products.length === 0) return res
+         .status(HttpStatus.NO_CONTENT)
+         .end();
+      return res
+         .status(200)
+         .json({ products });
+   }
+
    @Post('register')
    async register(@Body() data: ProductRegisterDTO, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IProdutc>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
-      const user = await this.auth.validateToken(token.replace('Bearer ', ''));
+      const user: string | JwtPayload = await this.auth.validateToken(token.replace('Bearer ', ''));
       if (!user) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
