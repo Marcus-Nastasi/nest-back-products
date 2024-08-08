@@ -17,11 +17,20 @@ export class ProductsService {
    }
 
    async update(id: number, data: ProductRegisterDTO): Promise<IProdutc> {
-      return await this.prisma.products.update({ where: { id: id }, data: data });
+      return await this.prisma.products.update({ 
+         where: { 
+            id: id 
+         }, 
+         data: data 
+      });
    }
 
    async delete(id: number): Promise<IProdutc> {
-      return await this.prisma.products.delete({ where: { id: id } });
+      return await this.prisma.products.delete({ 
+         where: { 
+            id: id 
+         } 
+      });
    }
 }
 

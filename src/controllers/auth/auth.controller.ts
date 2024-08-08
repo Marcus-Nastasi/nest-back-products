@@ -12,8 +12,12 @@ export class AuthController {
    @Post('login')
    async login(@Body() body: LoginDTO, @Res() res: Response): Promise<Response<Promise<LoginResponseDTO>>> {
       const data: LoginResponseDTO | null = await this.service.login(body);
-      if (!data) return res.status(HttpStatus.FORBIDDEN).end();
-      return res.status(200).json({ data });
+      if (!data) return res
+         .status(HttpStatus.FORBIDDEN)
+         .end();
+      return res
+         .status(200)
+         .json({ data });
    }
 }
 

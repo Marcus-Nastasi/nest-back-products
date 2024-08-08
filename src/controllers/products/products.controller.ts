@@ -12,38 +12,62 @@ export class ProductsController {
 
    @Get()
    async get(@Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<Array<IProdutc>>>> {
-      if (!token) return res.status(HttpStatus.FORBIDDEN).end();
+      if (!token) return res
+         .status(HttpStatus.FORBIDDEN)
+         .end();
       const user = await this.auth.validateToken(token.replace('Bearer ', ''));
-      if (!user) return res.status(HttpStatus.FORBIDDEN).end();
+      if (!user) return res
+         .status(HttpStatus.FORBIDDEN)
+         .end();
       const products: Array<IProdutc> = await this.service.get();
-      return res.status(200).json({ products });
+      return res
+         .status(200)
+         .json({ products });
    }
 
    @Post('register')
    async register(@Body() data: ProductRegisterDTO, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IProdutc>>> {
-      if (!token) return res.status(HttpStatus.FORBIDDEN).end();
+      if (!token) return res
+         .status(HttpStatus.FORBIDDEN)
+         .end();
       const user = await this.auth.validateToken(token.replace('Bearer ', ''));
-      if (!user) return res.status(HttpStatus.FORBIDDEN).end();
+      if (!user) return res
+         .status(HttpStatus.FORBIDDEN)
+         .end();
       const product: IProdutc = await this.service.register(data);
-      return res.status(201).json({ product });
+      return res
+         .status(201)
+         .json({ product });
    }
 
    @Put('update/:id')
    async update(@Param('id') id: string, @Body() data: ProductRegisterDTO, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IProdutc>>> {
-      if (!token) return res.status(HttpStatus.FORBIDDEN).end();
+      if (!token) return res
+         .status(HttpStatus.FORBIDDEN)
+         .end();
       const user = await this.auth.validateToken(token.replace('Bearer ', ''));
-      if (!user) return res.status(HttpStatus.FORBIDDEN).end();
+      if (!user) return res
+         .status(HttpStatus.FORBIDDEN)
+         .end();
       const product: IProdutc = await this.service.update(Number(id), data);
-      return res.status(201).json({ product });
+      return res
+         .status(201)
+         .json({ product });
    }
 
    @Delete('delete/:id')
    async delete(@Param('id') id: string, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IProdutc>>> {
-      if (!token) return res.status(HttpStatus.FORBIDDEN).end();
+      if (!token) return res
+         .status(HttpStatus.FORBIDDEN)
+         .end();
       const user = await this.auth.validateToken(token.replace('Bearer ', ''));
-      if (!user) return res.status(HttpStatus.FORBIDDEN).end();
+      if (!user) return res
+         .status(HttpStatus.FORBIDDEN)
+         .end();
       const product: IProdutc = await this.service.delete(Number(id));
-      return res.status(202).json({ product });
+      return res
+         .status(202)
+         .json({ product });
    }
 }
 

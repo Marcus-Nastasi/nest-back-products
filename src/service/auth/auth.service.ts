@@ -48,7 +48,11 @@ export class AuthService {
       if (!user) return null;
       const token: string = await this.generateToken(user.cpf);
       if (!token) return null;
-      return { id: user.id, cpf: user.cpf, token: token };
+      return { 
+         id: user.id, 
+         cpf: user.cpf, 
+         token: token 
+      };
    }
 }
 

@@ -22,19 +22,31 @@ export class UsersService {
    }
 
    async update(id: number, data: UpdateDTO): Promise<IUser> {
-      const user: IUser = await this.prisma.users.findFirst({ where: { id: id } });
+      const user: IUser = await this.prisma.users.findFirst({ 
+         where: {
+            id: id 
+         } 
+      });
       if (!user) return null;
       const validPass = this.auth.validatePassword(data.current_password, user.password);
       if (!validPass) return null;
       user.name = data.name;
       user.cpf = data.cpf;
       user.password = await bcrypt.hash(data.new_password, 10);
-      const updated: IUser = await this.prisma.users.update({ where: { id: id }, data: user });
+      const updated: IUser = await this.prisma.users.update({ 
+         where: {
+            id: id 
+         }, data: user 
+      });
       return updated; 
    }
 
    async delete(id: number): Promise<IUser> {
-      return await this.prisma.users.delete({ where: { id: id } });
+      return await this.prisma.users.delete({ 
+         where: {
+            id: id 
+         } 
+      });
    }
 }
 
