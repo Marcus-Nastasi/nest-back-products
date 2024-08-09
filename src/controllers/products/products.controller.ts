@@ -32,6 +32,24 @@ export class ProductsController {
          .json({ products });
    }
 
+   @Get('/:id')
+   async getUnique(@Param('id') id: string, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IProdutc>>> {
+      if (!token) return res
+         .status(HttpStatus.FORBIDDEN)
+         .end();
+      const user = await this.auth.validateToken(token.replace('Bearer ', ''));
+      if (!user) return res
+         .status(HttpStatus.FORBIDDEN)
+         .end();
+      const product: IProdutc = await this.service.getUnique(Number(id));
+      if (!product) return res
+         .status(HttpStatus.NO_CONTENT)
+         .end();
+      return res
+         .status(200)
+         .json({ product });
+   }
+
    @Post('search')
    async search(@Body() data: { name: string }, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<Array<IProdutc>>>> {
       if (!token) return res

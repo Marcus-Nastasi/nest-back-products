@@ -1,11 +1,17 @@
 import { Controller, Get, Render } from '@nestjs/common';
 
-@Controller('product/register')
+@Controller('product')
 export class ProdRegisterController {
 
-   @Get()
+   @Get('register')
    @Render('pages/prod_register')
-   public render() {
+   public render_reg() {
+      return
+   }
+
+   @Get('update/:id')
+   @Render('pages/prod_update')
+   public render_upd() {
       return
    }
 }

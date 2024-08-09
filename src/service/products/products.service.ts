@@ -1,15 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { AuthService } from '../auth/auth.service';
 import ProductRegisterDTO from 'src/DTOs/products/ProductRegisterDTO';
 import IProdutc from 'src/Interfaces/products/IProduct';
 
 @Injectable()
 export class ProductsService {
-   constructor(private readonly prisma: PrismaService, private readonly auth: AuthService) {}
+   constructor(private readonly prisma: PrismaService) {}
 
    async get(): Promise<Array<IProdutc>> {
-      return await this.prisma.products.findMany();
+      return await this.prisma.products.findMany({
+         orderBy: {
+            id: 'asc'
+         }
+      });
+   }
+
+   async getUnique(id: number): Promise<IProdutc> {
+      return await this.prisma.products.findUnique({ 
+         where: {
+            id: id
+         } 
+      });
    }
 
    async search(name: string): Promise<Array<IProdutc>> {
