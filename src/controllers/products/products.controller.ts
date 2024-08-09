@@ -9,7 +9,10 @@ import { ProductsService } from 'src/service/products/products.service';
 
 @Controller('products')
 export class ProductsController {
-   constructor(private readonly service: ProductsService, private readonly auth: AuthService) {}
+   constructor(
+      private readonly service: ProductsService, 
+      private readonly auth: AuthService
+   ) {}
 
    @Get()
    async get(@Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<Array<IProdutc>>>> {
@@ -30,7 +33,7 @@ export class ProductsController {
    }
 
    @Post('search')
-   async search(@Body() data: { name: string }, @Headers('authorization') token: string, @Res() res: Response) {
+   async search(@Body() data: { name: string }, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<Array<IProdutc>>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
