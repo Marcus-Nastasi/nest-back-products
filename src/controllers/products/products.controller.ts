@@ -21,6 +21,9 @@ export class ProductsController {
          .status(HttpStatus.FORBIDDEN)
          .end();
       const products: Array<IProdutc> = await this.service.get();
+      if (!products.length) return res
+         .status(HttpStatus.NO_CONTENT)
+         .end();
       return res
          .status(200)
          .json({ products });
@@ -36,7 +39,7 @@ export class ProductsController {
          .status(HttpStatus.FORBIDDEN)
          .end();
       const products: Array<IProdutc> = await this.service.search(data.name);
-      if (products.length === 0) return res
+      if (!products.length) return res
          .status(HttpStatus.NO_CONTENT)
          .end();
       return res

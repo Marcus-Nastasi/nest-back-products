@@ -18,10 +18,12 @@ import { LoginController } from './controllers/login/login.controller';
 import { LoginModule } from './modules/login/login.module';
 import { UserRegisterController } from './controllers/user_register/user_register.controller';
 import { UserRegisterModule } from './modules/user_register/user_register.module';
+import { ProdRegisterController } from './controllers/prod_register/prod_register.controller';
+import { ProdRegisterModule } from './modules/prod_register/prod_register.module';
 
 @Module({
-  imports: [PrismaModule, UsersModule, ProductsModule, PurchasesModule, HomeModule, LoginModule, UserRegisterModule],
-  controllers: [AppController, UsersController, PurchasesController, AuthController, HomeController, LoginController, UserRegisterController],
+  imports: [PrismaModule, UsersModule, ProductsModule, PurchasesModule, HomeModule, LoginModule, UserRegisterModule, ProdRegisterModule],
+  controllers: [AppController, UsersController, PurchasesController, AuthController, HomeController, LoginController, UserRegisterController, ProdRegisterController],
   providers: [AppService, PrismaService, UsersService, PurchasesService, AuthService],
 })
 export class AppModule {}
