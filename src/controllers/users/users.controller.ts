@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Headers, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, HttpStatus, Param, Post, Put, Render, Res } from '@nestjs/common';
 import { Response } from 'express';
 
 import UpdateDTO from 'src/DTOs/users/UpdateDTO';
@@ -9,7 +9,16 @@ import { UsersService } from 'src/service/users/users.service';
 
 @Controller('users')
 export class UsersController {
-   constructor(private readonly service: UsersService, private readonly auth: AuthService) {}
+   constructor(
+      private readonly service: UsersService, 
+      private readonly auth: AuthService
+   ) {}
+
+   @Get('register')
+   @Render('pages/user_register')
+   public render() {
+      return
+   }
 
    @Get('')
    async get(@Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<Array<IUser>>>> {

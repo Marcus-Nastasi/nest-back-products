@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Headers, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, HttpStatus, Param, Post, Put, Render, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
 
@@ -13,6 +13,18 @@ export class ProductsController {
       private readonly service: ProductsService, 
       private readonly auth: AuthService
    ) {}
+
+   @Get('register')
+   @Render('pages/prod_register')
+   public render_reg() {
+      return
+   }
+
+   @Get('update/:id')
+   @Render('pages/prod_update')
+   public render_upd() {
+      return
+   }
 
    @Get()
    async get(@Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<Array<IProdutc>>>> {
