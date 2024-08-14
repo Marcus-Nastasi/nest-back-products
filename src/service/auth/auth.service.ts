@@ -24,7 +24,7 @@ export class AuthService {
       }
    }
 
-   public async validateToken(token: string) {
+   public async validateToken(token: string): Promise<string | jwt.JwtPayload> {
       try {
          return jwt.verify(token, 'sct');
       } catch(e: any) {
