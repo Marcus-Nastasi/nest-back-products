@@ -5,11 +5,10 @@ import { PrismaService } from '../prisma/prisma.service';
 import UserRegisterDTO from 'src/DTOs/users/UserRegisterDTO';
 import UpdateDTO from 'src/DTOs/users/UpdateDTO';
 import IUser from 'src/Interfaces/users/IUser';
-import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class UsersService {
-   constructor(private readonly prisma: PrismaService, private readonly auth: AuthService) {}
+   constructor(private readonly prisma: PrismaService) {}
 
    async get(): Promise<Array<IUser>> {
       return await this.prisma.users.findMany();
