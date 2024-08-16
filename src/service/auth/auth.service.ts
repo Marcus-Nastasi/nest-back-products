@@ -9,7 +9,9 @@ import LoginResponseDTO from 'src/DTOs/auth/LoginResponseDTO';
 
 @Injectable()
 export class AuthService {
-   constructor(private readonly prisma: PrismaService) {}
+   constructor(
+      private readonly prisma: PrismaService
+   ) {}
 
    public async generateToken(cpf: string): Promise<string> {
       try {
@@ -32,20 +34,17 @@ export class AuthService {
       }
    }
 
-   public async validatePassword(raw: string, encoded: string): Promise<boolean> {
-      return await bcryprt.compare(raw, encoded);
-   }
-
    private async getUser(data: LoginDTO): Promise<IUser> {
       const user: IUser = await this.prisma.users.findFirst({ where: { cpf: data.cpf } });
       if (!user) return null;
-      if (!this.validatePassword(data.password, user.password)) return null;
+      if (!(await bcryprt.compare(data.password, user.password))) return null;
       return user;
    }
 
-   async login(data: LoginDTO): Promise<LoginResponseDTO> {
+   public async login(data: LoginDTO): Promise<LoginResponseDTO> {
       const user: IUser | null = await this.getUser(data);
       if (!user) return null;
+      if (!(await bcryprt.compare(data.password, user.password))) return null;
       const token: string = await this.generateToken(user.cpf);
       if (!token) return null;
       return { 

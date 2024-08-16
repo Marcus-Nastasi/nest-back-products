@@ -21,14 +21,14 @@ export class UsersService {
       return await this.prisma.users.create({ data });
    }
 
-   async update(id: number, data: UpdateDTO): Promise<IUser> {
+   async update(id: number, data: UpdateDTO): Promise<IUser | null> {
       const user: IUser = await this.prisma.users.findFirst({ 
          where: {
             id: id 
          } 
       });
       if (!user) return null;
-      const validPass = this.auth.validatePassword(data.current_password, user.password);
+      const validPass: boolean = await bcrypt.compare(data.current_password, user.password);
       if (!validPass) return null;
       user.name = data.name;
       user.cpf = data.cpf;
