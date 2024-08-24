@@ -35,7 +35,9 @@ export class AuthService {
    }
 
    private async getUser(data: LoginDTO): Promise<IUser> {
-      const user: IUser = await this.prisma.users.findFirst({ where: { cpf: data.cpf } });
+      const user: IUser = await this.prisma.users.findFirst({ 
+         where: { cpf: data.cpf } 
+      });
       if (!user) return null;
       if (!(await bcryprt.compare(data.password, user.password))) return null;
       return user;

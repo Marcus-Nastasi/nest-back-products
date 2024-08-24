@@ -9,6 +9,11 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '../../Frontend/dist'))
   app.engine('html', require('ejs').renderFile);
   app.setViewEngine('html');
-  await app.listen(3000);
+   app.enableCors({
+      origin: 'http://localhost:3000',
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+      credentials: true,
+   });
+  await app.listen(3001);
 }
 bootstrap();

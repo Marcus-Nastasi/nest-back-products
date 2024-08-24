@@ -8,7 +8,9 @@ import IUser from 'src/Interfaces/users/IUser';
 
 @Injectable()
 export class UsersService {
-   constructor(private readonly prisma: PrismaService) {}
+   constructor(
+      private readonly prisma: PrismaService
+   ) {}
 
    async get(): Promise<Array<IUser>> {
       return await this.prisma.users.findMany();
@@ -17,7 +19,9 @@ export class UsersService {
    async register(data: UserRegisterDTO): Promise<IUser> {
       if (!data.password) return null;
       data.password = await bcrypt.hash(data.password, 10);
-      return await this.prisma.users.create({ data });
+      const user: IUser = await this.prisma.users.create({ data });
+      if (!user) return null;
+      return user;
    }
 
    async update(id: number, data: UpdateDTO): Promise<IUser | null> {
@@ -37,15 +41,18 @@ export class UsersService {
             id: id 
          }, data: user 
       });
+      if (!updated) return null;
       return updated; 
    }
 
    async delete(id: number): Promise<IUser> {
-      return await this.prisma.users.delete({ 
+      const deleted = await this.prisma.users.delete({ 
          where: {
             id: id 
          } 
       });
+      if (!deleted) return null;
+      return deleted;
    }
 }
 
