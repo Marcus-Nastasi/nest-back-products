@@ -3,14 +3,20 @@ import { Response } from 'express';
 import PurchaseRegisterDTO from 'src/DTOs/purchases/PurchaseRegisterDTO';
 import IPurchase from 'src/Interfaces/purchases/IPurchase';
 import { AuthService } from 'src/service/auth/auth.service';
-import { PurchasesService } from 'src/service/purchases/purchases.service';
+import { PurchasesService } from 'src/service/sales/purchases.service';
 
 @Controller('purchases')
 export class PurchasesController {
-   constructor(private readonly service: PurchasesService, private readonly auth: AuthService) {}
+   constructor(
+      private readonly service: PurchasesService, 
+      private readonly auth: AuthService
+   ) {}
 
    @Get()
-   async get(@Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<Array<IPurchase>>>> {
+   async get(
+      @Headers('authorization') token: string, 
+      @Res() res: Response
+   ): Promise<Response<Promise<Array<IPurchase>>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
@@ -25,7 +31,11 @@ export class PurchasesController {
    }
 
    @Post('register')
-   async register(@Body() body: PurchaseRegisterDTO, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IPurchase>>> {
+   async register(
+      @Body() body: PurchaseRegisterDTO, 
+      @Headers('authorization') token: string, 
+      @Res() res: Response
+   ): Promise<Response<Promise<IPurchase>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
@@ -40,7 +50,12 @@ export class PurchasesController {
    }
 
    @Put('update/:id')
-   async update(@Param('id') id: string, @Body() body: PurchaseRegisterDTO, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IPurchase>>> {
+   async update(
+      @Param('id') id: string, 
+      @Body() body: PurchaseRegisterDTO, 
+      @Headers('authorization') token: string, 
+      @Res() res: Response
+   ): Promise<Response<Promise<IPurchase>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
@@ -55,7 +70,11 @@ export class PurchasesController {
    }
 
    @Delete('delete/:id')
-   async delete(@Param('id') id: string, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IPurchase>>> {
+   async delete(
+      @Param('id') id: string, 
+      @Headers('authorization') token: string, 
+      @Res() res: Response
+   ): Promise<Response<Promise<IPurchase>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();

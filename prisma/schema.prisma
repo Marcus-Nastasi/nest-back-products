@@ -13,26 +13,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
-   id    Int    @id @default(autoincrement())
-   name  String
-   cpf String
-   password String
+model Users {
+   id          Int    @id @default(autoincrement())
+   name        String
+   cpf         String
+   password    String
+
+   @@map("users")
 }
 
-model products {
-  id          Int      @id @default(autoincrement())
-  name        String
+model Products {
+  id            Int      @id @default(autoincrement())
+  name          String
   description   String?
-  price       Float
-  quantity  Int
+  price         Float
+  quantity      Int
+
+   @@map("products")
 }
 
-model purchases {
+model Sales {
   id          Int      @id @default(autoincrement())
-  userId   Int
+  userId      Int
   productId   Int
-  quantity  Int
-  date  DateTime @default(now())
+  quantity    Int
+  date        DateTime @default(now())
+
+   @@map("sales")
+}
+
+model Expenses {
+   id             Int      @id @default(autoincrement())
+   value          Float
+   description    String
+
+   @@map("expenses")
 }
 

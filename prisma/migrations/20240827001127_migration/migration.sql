@@ -3,6 +3,7 @@ CREATE TABLE "users" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "cpf" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
@@ -19,12 +20,21 @@ CREATE TABLE "products" (
 );
 
 -- CreateTable
-CREATE TABLE "purchases" (
+CREATE TABLE "sales" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
     "productId" INTEGER NOT NULL,
     "quantity" INTEGER NOT NULL,
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "purchases_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "sales_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "expenses" (
+    "id" SERIAL NOT NULL,
+    "value" DOUBLE PRECISION NOT NULL,
+    "description" TEXT NOT NULL,
+
+    CONSTRAINT "expenses_pkey" PRIMARY KEY ("id")
 );

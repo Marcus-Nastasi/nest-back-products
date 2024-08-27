@@ -21,7 +21,10 @@ export class UsersController {
    }
 
    @Get('')
-   async get(@Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<Array<IUser>>>> {
+   async get(
+      @Headers('authorization') token: string, 
+      @Res() res: Response
+   ): Promise<Response<Promise<Array<IUser>>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
@@ -36,7 +39,10 @@ export class UsersController {
    }
 
    @Post('register')
-   async register(@Body() data: UserRegisterDTO, @Res() res: Response): Promise<Response<Promise<IUser>>> {
+   async register(
+      @Body() data: UserRegisterDTO, 
+      @Res() res: Response
+   ): Promise<Response<Promise<IUser>>> {
       const new_user: IUser = await this.service.register(data);
       if (!new_user) return res
          .status(HttpStatus.UNAUTHORIZED)
@@ -47,7 +53,12 @@ export class UsersController {
    }
 
    @Put('update/:id')
-   async update(@Param('id') id: string, @Body() data: UpdateDTO, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IUser>>> {
+   async update(
+      @Param('id') id: string, 
+      @Body() data: UpdateDTO, 
+      @Headers('authorization') token: string, 
+      @Res() res: Response
+   ): Promise<Response<Promise<IUser>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
@@ -62,7 +73,11 @@ export class UsersController {
    }
 
    @Delete('delete/:id')
-   async delete(@Param('id') id: string, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IUser>>> {
+   async delete(
+      @Param('id') id: string, 
+      @Headers('authorization') token: string, 
+      @Res() res: Response
+   ): Promise<Response<Promise<IUser>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
