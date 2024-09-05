@@ -23,4 +23,3 @@ export class AuthController {
          .json({ data });
    }
 }
-

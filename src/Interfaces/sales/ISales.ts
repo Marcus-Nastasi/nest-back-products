@@ -1,4 +1,4 @@
-export default interface IPurchase {
+export default interface ISales {
    id: number,
    userId: number
    productId: number,

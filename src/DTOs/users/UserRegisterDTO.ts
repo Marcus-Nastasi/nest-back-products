@@ -3,4 +3,3 @@ export default interface UserRegisterDTO {
    cpf: string,
    password: string
 }
-

@@ -1,14 +1,14 @@
 import { Body, Controller, Delete, Get, Headers, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
 import { Response } from 'express';
-import PurchaseRegisterDTO from 'src/DTOs/purchases/PurchaseRegisterDTO';
-import IPurchase from 'src/Interfaces/purchases/IPurchase';
+import SalesRegisterDTO from 'src/DTOs/sales/SalesRegisterDTO';
+import ISales from 'src/Interfaces/sales/ISales';
 import { AuthService } from 'src/service/auth/auth.service';
-import { PurchasesService } from 'src/service/sales/purchases.service';
+import { SalesService } from 'src/service/sales/sales.service';
 
-@Controller('purchases')
-export class PurchasesController {
+@Controller('sales')
+export class SalesController {
    constructor(
-      private readonly service: PurchasesService, 
+      private readonly service: SalesService, 
       private readonly auth: AuthService
    ) {}
 
@@ -16,7 +16,7 @@ export class PurchasesController {
    async get(
       @Headers('authorization') token: string, 
       @Res() res: Response
-   ): Promise<Response<Promise<Array<IPurchase>>>> {
+   ): Promise<Response<Promise<Array<ISales>>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
@@ -24,7 +24,7 @@ export class PurchasesController {
       if (!user) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
-      const purchases: Array<IPurchase> = await this.service.get();
+      const purchases: Array<ISales> = await this.service.get();
       return res
          .status(200)
          .json({ purchases });
@@ -32,10 +32,10 @@ export class PurchasesController {
 
    @Post('register')
    async register(
-      @Body() body: PurchaseRegisterDTO, 
+      @Body() body: SalesRegisterDTO, 
       @Headers('authorization') token: string, 
       @Res() res: Response
-   ): Promise<Response<Promise<IPurchase>>> {
+   ): Promise<Response<Promise<ISales>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
@@ -43,7 +43,7 @@ export class PurchasesController {
       if (!user) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
-      const purchase: IPurchase = await this.service.register(body);
+      const purchase: ISales = await this.service.register(body);
       return res
          .status(201)
          .json({ purchase });
@@ -52,10 +52,10 @@ export class PurchasesController {
    @Put('update/:id')
    async update(
       @Param('id') id: string, 
-      @Body() body: PurchaseRegisterDTO, 
+      @Body() body: SalesRegisterDTO, 
       @Headers('authorization') token: string, 
       @Res() res: Response
-   ): Promise<Response<Promise<IPurchase>>> {
+   ): Promise<Response<Promise<ISales>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
@@ -63,7 +63,7 @@ export class PurchasesController {
       if (!user) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
-      const purchase: IPurchase = await this.service.update(Number(id), body);
+      const purchase: ISales = await this.service.update(Number(id), body);
       return res
          .status(201)
          .json({ purchase });
@@ -74,7 +74,7 @@ export class PurchasesController {
       @Param('id') id: string, 
       @Headers('authorization') token: string, 
       @Res() res: Response
-   ): Promise<Response<Promise<IPurchase>>> {
+   ): Promise<Response<Promise<ISales>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
@@ -82,7 +82,7 @@ export class PurchasesController {
       if (!user) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
-      const purchase: IPurchase = await this.service.delete(Number(id));
+      const purchase: ISales = await this.service.delete(Number(id));
       return res
          .status(202)
          .json({ purchase });
