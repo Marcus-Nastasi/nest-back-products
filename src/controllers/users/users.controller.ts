@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Headers, HttpStatus, Param, Post, Put, Render, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, HttpCode, HttpStatus, Param, Patch, Post, Put, Render, Res } from '@nestjs/common';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
 import UpdateDTO from 'src/DTOs/users/UpdateDTO';
@@ -7,6 +8,7 @@ import IUser from 'src/Interfaces/users/IUser';
 import { AuthService } from 'src/service/auth/auth.service';
 import { UsersService } from 'src/service/users/users.service';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
    constructor(
@@ -14,13 +16,12 @@ export class UsersController {
       private readonly auth: AuthService
    ) {}
 
-   @Get('register')
-   @Render('pages/user_register')
-   public render() {
-      return
-   }
-
    @Get('')
+   @HttpCode(HttpStatus.OK)
+   @ApiParam({ name: 'authorization', type: 'string', required: false })
+   @ApiOperation({ summary: 'Get users', description: 'You can get all users' })
+   @ApiResponse({ status: 200, description: 'Getting all the users', type: [IUser] })
+   @ApiResponse({ status: 403, description: 'Forbidden.'})
    async get(
       @Headers('authorization') token: string, 
       @Res() res: Response
@@ -39,6 +40,11 @@ export class UsersController {
    }
 
    @Post('register')
+   @HttpCode(HttpStatus.CREATED)
+   @ApiBody({ type: UserRegisterDTO })
+   @ApiOperation({ summary: 'Create a user', description: 'You can register a user' })
+   @ApiResponse({ status: 201, description: 'User created', type: IUser })
+   @ApiResponse({ status: 403, description: 'Forbidden.'})
    async register(
       @Body() data: UserRegisterDTO, 
       @Res() res: Response
@@ -52,7 +58,13 @@ export class UsersController {
          .json({ new_user });
    }
 
-   @Put('update/:id')
+   @Patch('update/:id')
+   @HttpCode(HttpStatus.OK)
+   @ApiBody({ type: UpdateDTO })
+   @ApiParam({ name: 'id', type: 'string', required: true })
+   @ApiOperation({ summary: 'Update a user', description: 'You can update a user' })
+   @ApiResponse({ status: 200, description: 'User updated', type: IUser })
+   @ApiResponse({ status: 403, description: 'Forbidden.'})
    async update(
       @Param('id') id: string, 
       @Body() data: UpdateDTO, 
@@ -68,11 +80,16 @@ export class UsersController {
          .end();
       const updated: IUser = await this.service.update(Number(id), data); 
       return res
-         .status(201)
+         .status(200)
          .json({ updated });
    }
 
    @Delete('delete/:id')
+   @HttpCode(HttpStatus.OK)
+   @ApiParam({ name: 'id', type: 'string', required: true })
+   @ApiOperation({ summary: 'Delete a user', description: 'You can delete a user' })
+   @ApiResponse({ status: 200, description: 'User deleted', type: IUser })
+   @ApiResponse({ status: 403, description: 'Forbidden.'})
    async delete(
       @Param('id') id: string, 
       @Headers('authorization') token: string, 
@@ -87,8 +104,7 @@ export class UsersController {
          .end();
       const deleted: IUser = await this.service.delete(Number(id)); 
       return res
-         .status(202)
+         .status(200)
          .json({ deleted });
    }
 }
-

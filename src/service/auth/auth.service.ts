@@ -52,8 +52,7 @@ export class AuthService {
       return { 
          id: user.id, 
          cpf: user.cpf, 
-         token: token 
+         token: token
       };
    }
 }
-

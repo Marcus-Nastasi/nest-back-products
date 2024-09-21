@@ -1,7 +1,13 @@
-export default interface UpdateDTO {
-   name: string,
-   cpf: string,
-   current_password: string,
+import { ApiProperty } from "@nestjs/swagger"
+
+export default class UpdateDTO {
+   @ApiProperty()
+   name: string;
+   @ApiProperty()
+   cpf: string;
+   @ApiProperty()
+   current_password: string;
+   @ApiProperty()
    new_password: string
 }
 

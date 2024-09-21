@@ -1,5 +1,10 @@
-export default interface UserRegisterDTO {
-   name: string,
-   cpf: string,
+import { ApiProperty } from "@nestjs/swagger";
+
+export default class UserRegisterDTO {
+   @ApiProperty()
+   name: string;
+   @ApiProperty()
+   cpf: string;
+   @ApiProperty()
    password: string
 }

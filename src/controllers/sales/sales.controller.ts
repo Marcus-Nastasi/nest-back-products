@@ -1,10 +1,12 @@
 import { Body, Controller, Delete, Get, Headers, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import SalesRegisterDTO from 'src/DTOs/sales/SalesRegisterDTO';
 import ISales from 'src/Interfaces/sales/ISales';
 import { AuthService } from 'src/service/auth/auth.service';
 import { SalesService } from 'src/service/sales/sales.service';
 
+@ApiTags('Sales')
 @Controller('sales')
 export class SalesController {
    constructor(
