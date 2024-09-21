@@ -25,7 +25,7 @@ export class UsersController {
    async get(
       @Headers('authorization') token: string, 
       @Res() res: Response
-   ): Promise<Response<Promise<Array<IUser>>>> {
+   ): Promise<Response<Promise<IUser[]>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();

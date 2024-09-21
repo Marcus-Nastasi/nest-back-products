@@ -27,7 +27,10 @@ export class ProductsController {
    }
 
    @Get()
-   async get(@Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<Array<IProdutc>>>> {
+   async get(
+      @Headers('authorization') token: string, 
+      @Res() res: Response
+   ): Promise<Response<Promise<IProdutc[]>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
@@ -45,7 +48,11 @@ export class ProductsController {
    }
 
    @Get('/:id')
-   async getUnique(@Param('id') id: string, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IProdutc>>> {
+   async getUnique(
+      @Param('id') id: string, 
+      @Headers('authorization') token: string, 
+      @Res() res: Response
+   ): Promise<Response<Promise<IProdutc>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
@@ -63,7 +70,11 @@ export class ProductsController {
    }
 
    @Post('search')
-   async search(@Body() data: { name: string }, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<Array<IProdutc>>>> {
+   async search(
+      @Body() data: { name: string }, 
+      @Headers('authorization') token: string, 
+      @Res() res: Response
+   ): Promise<Response<Promise<IProdutc[]>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
@@ -71,7 +82,7 @@ export class ProductsController {
       if (!user) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
-      const products: Array<IProdutc> = await this.service.search(data.name);
+      const products: IProdutc[] = await this.service.search(data.name);
       if (!products.length) return res
          .status(HttpStatus.NO_CONTENT)
          .end();
@@ -81,7 +92,11 @@ export class ProductsController {
    }
 
    @Post('register')
-   async register(@Body() data: ProductRegisterDTO, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IProdutc>>> {
+   async register(
+      @Body() data: ProductRegisterDTO, 
+      @Headers('authorization') token: string, 
+      @Res() res: Response
+   ): Promise<Response<Promise<IProdutc>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
@@ -96,7 +111,12 @@ export class ProductsController {
    }
 
    @Put('update/:id')
-   async update(@Param('id') id: string, @Body() data: ProductRegisterDTO, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IProdutc>>> {
+   async update(
+      @Param('id') id: string, 
+      @Body() data: ProductRegisterDTO, 
+      @Headers('authorization') token: string, 
+      @Res() res: Response
+   ): Promise<Response<Promise<IProdutc>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
@@ -111,7 +131,11 @@ export class ProductsController {
    }
 
    @Delete('delete/:id')
-   async delete(@Param('id') id: string, @Headers('authorization') token: string, @Res() res: Response): Promise<Response<Promise<IProdutc>>> {
+   async delete(
+      @Param('id') id: string, 
+      @Headers('authorization') token: string, 
+      @Res() res: Response
+   ): Promise<Response<Promise<IProdutc>>> {
       if (!token) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
@@ -125,4 +149,3 @@ export class ProductsController {
          .json({ product });
    }
 }
-
