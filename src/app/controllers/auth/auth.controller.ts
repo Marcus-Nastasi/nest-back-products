@@ -26,6 +26,6 @@ export class AuthController {
          .end();
       return res
          .status(200)
-         .json({ data });
+         .json(data);
    }
 }

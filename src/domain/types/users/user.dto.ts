@@ -2,25 +2,25 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class IUser {
    @ApiProperty()
-   id?: number;
+   id: number;
    @ApiProperty()
    name: string;
    @ApiProperty()
    cpf: string;
    @ApiProperty()
-   password?: string   
+   password: string;
 }
 
-export class UserRegisterDTO {
+export class UserRequestDto {
    @ApiProperty()
    name: string;
    @ApiProperty()
    cpf: string;
    @ApiProperty()
-   password: string
+   password: string;
 }
 
-export class UpdateDTO {
+export class UserUpdateDto {
    @ApiProperty()
    name: string;
    @ApiProperty()
@@ -28,5 +28,16 @@ export class UpdateDTO {
    @ApiProperty()
    current_password: string;
    @ApiProperty()
-   new_password: string
+   new_password: string;
+}
+
+export class UserResponseDto {
+   @ApiProperty()
+   id: number;
+   @ApiProperty()
+   name: string;
+   @ApiProperty()
+   cpf: string;
+   @ApiProperty()
+   password: string;
 }

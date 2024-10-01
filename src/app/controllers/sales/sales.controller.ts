@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Headers, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { AuthService } from 'src/app/services/auth/auth.service';
+
 import { SalesService } from 'src/app/services/sales/sales.service';
 import { ISales, SalesRegisterDTO } from 'src/domain/types/sales/ISales';
 
@@ -9,22 +9,13 @@ import { ISales, SalesRegisterDTO } from 'src/domain/types/sales/ISales';
 @Controller('sales')
 export class SalesController {
    constructor(
-      private readonly service: SalesService, 
-      private readonly auth: AuthService
+      private readonly service: SalesService 
    ) {}
 
    @Get()
-   async get(
-      @Headers('authorization') token: string, 
+   async get( 
       @Res() res: Response
    ): Promise<Response<Promise<ISales[]>>> {
-      if (!token) return res
-         .status(HttpStatus.FORBIDDEN)
-         .end();
-      const user = await this.auth.validateToken(token.replace('Bearer ', ''));
-      if (!user) return res
-         .status(HttpStatus.FORBIDDEN)
-         .end();
       const purchases: ISales[] = await this.service.get();
       return res
          .status(200)
@@ -33,17 +24,9 @@ export class SalesController {
 
    @Post('register')
    async register(
-      @Body() body: SalesRegisterDTO, 
-      @Headers('authorization') token: string, 
+      @Body() body: SalesRegisterDTO,  
       @Res() res: Response
    ): Promise<Response<Promise<ISales>>> {
-      if (!token) return res
-         .status(HttpStatus.FORBIDDEN)
-         .end();
-      const user = await this.auth.validateToken(token.replace('Bearer ', ''));
-      if (!user) return res
-         .status(HttpStatus.FORBIDDEN)
-         .end();
       const purchase: ISales = await this.service.register(body);
       return res
          .status(201)
@@ -53,17 +36,9 @@ export class SalesController {
    @Put('update/:id')
    async update(
       @Param('id') id: string, 
-      @Body() body: SalesRegisterDTO, 
-      @Headers('authorization') token: string, 
+      @Body() body: SalesRegisterDTO,  
       @Res() res: Response
    ): Promise<Response<Promise<ISales>>> {
-      if (!token) return res
-         .status(HttpStatus.FORBIDDEN)
-         .end();
-      const user = await this.auth.validateToken(token.replace('Bearer ', ''));
-      if (!user) return res
-         .status(HttpStatus.FORBIDDEN)
-         .end();
       const purchase: ISales = await this.service.update(Number(id), body);
       return res
          .status(201)
@@ -72,17 +47,9 @@ export class SalesController {
 
    @Delete('delete/:id')
    async delete(
-      @Param('id') id: string, 
-      @Headers('authorization') token: string, 
+      @Param('id') id: string,  
       @Res() res: Response
    ): Promise<Response<Promise<ISales>>> {
-      if (!token) return res
-         .status(HttpStatus.FORBIDDEN)
-         .end();
-      const user = await this.auth.validateToken(token.replace('Bearer ', ''));
-      if (!user) return res
-         .status(HttpStatus.FORBIDDEN)
-         .end();
       const purchase: ISales = await this.service.delete(Number(id));
       return res
          .status(202)

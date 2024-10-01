@@ -15,20 +15,12 @@ export class AuthService {
       try {
          const token: string = jwt.sign(
             { cpf: cpf },
-            'sct',
+            process.env.TOKEN_SECRET,
             { expiresIn: '1d' }
          );
          return token;
       } catch(e: any) {
          console.log(e);
-      }
-   }
-
-   public async validateToken(token: string): Promise<string | jwt.JwtPayload> {
-      try {
-         return jwt.verify(token, 'sct');
-      } catch(e: any) {
-         return '';
       }
    }
 
