@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Headers, HttpStatus, Param, Post, Put, R
 import { Response } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
 
-import { IProdutc, ProductRegisterDTO } from 'src/models/Interfaces/products/IProduct';
+import { IProdutc, ProductRegisterDTO } from 'src/domain/types/products/IProduct';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ProductsService } from 'src/app/services/products/products.service';
 

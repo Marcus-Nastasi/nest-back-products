@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { SalesService } from 'src/app/services/sales/sales.service';
-import { ISales, SalesRegisterDTO } from 'src/models/Interfaces/sales/ISales';
+import { ISales, SalesRegisterDTO } from 'src/domain/types/sales/ISales';
 
 @ApiTags('Sales')
 @Controller('sales')

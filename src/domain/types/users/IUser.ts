@@ -11,6 +11,15 @@ export class IUser {
    password?: string   
 }
 
+export class UserRegisterDTO {
+   @ApiProperty()
+   name: string;
+   @ApiProperty()
+   cpf: string;
+   @ApiProperty()
+   password: string
+}
+
 export class UpdateDTO {
    @ApiProperty()
    name: string;
@@ -20,13 +29,4 @@ export class UpdateDTO {
    current_password: string;
    @ApiProperty()
    new_password: string
-}
-
-export class UserRegisterDTO {
-   @ApiProperty()
-   name: string;
-   @ApiProperty()
-   cpf: string;
-   @ApiProperty()
-   password: string
 }

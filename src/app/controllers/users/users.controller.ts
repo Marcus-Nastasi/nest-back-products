@@ -4,7 +4,7 @@ import { Response } from 'express';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UsersService } from 'src/app/services/users/users.service';
-import { IUser, UpdateDTO, UserRegisterDTO } from 'src/models/Interfaces/users/IUser';
+import { IUser, UpdateDTO, UserRegisterDTO } from 'src/domain/types/users/IUser';
 
 @ApiTags('Users')
 @Controller('users')
