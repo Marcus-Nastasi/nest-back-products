@@ -3,7 +3,7 @@ import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { LoginDTO, LoginResponseDTO } from 'src/domain/types/auth/Auth';
+import { LoginRequestDto, LoginResponseDto } from 'src/domain/types/auth/auth.dto';
 
 @ApiTags('Auth')
 @Controller()
@@ -12,15 +12,15 @@ export class AuthController {
 
    @Post('login')
    @HttpCode(HttpStatus.CREATED)
-   @ApiBody({ type: LoginDTO })
+   @ApiBody({ type: LoginRequestDto })
    @ApiOperation({ summary: 'Authorizating a user', description: 'You can authorize a user' })
-   @ApiResponse({ status: 200, description: 'User authorizated', type: LoginResponseDTO })
+   @ApiResponse({ status: 200, description: 'User authorizated', type: LoginResponseDto })
    @ApiResponse({ status: 403, description: 'Forbidden.'})
    async login(
-      @Body() body: LoginDTO, 
+      @Body() body: LoginRequestDto, 
       @Res() res: Response
-   ): Promise<Response<Promise<LoginResponseDTO>>> {
-      const data: LoginResponseDTO | null = await this.service.login(body);
+   ): Promise<Response<Promise<LoginResponseDto>>> {
+      const data: LoginResponseDto | null = await this.service.login(body);
       if (!data) return res
          .status(HttpStatus.FORBIDDEN)
          .end();
