@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcryprt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-import { IUser } from 'src/domain/types/users/IUser';
 import { LoginDTO, LoginResponseDTO } from 'src/domain/types/auth/Auth';
+import { IUser } from 'src/domain/types/users/user.dto';
 
 @Injectable()
 export class AuthService {

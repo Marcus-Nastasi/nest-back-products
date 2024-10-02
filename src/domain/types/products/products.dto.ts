@@ -24,6 +24,11 @@ export class ProductRequestDto {
    quantity: number;
 }
 
+export class ProductSearchRequestDto {
+   @ApiProperty()
+   name: string;
+}
+
 export class ProdutcResponseDto {
    @ApiProperty()
    id: number;

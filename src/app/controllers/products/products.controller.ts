@@ -1,10 +1,10 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { AuthGuard } from 'src/app/services/auth/auth.guard';
 
 import { ProductsService } from 'src/app/services/products/products.service';
-import { ProductRequestDto, ProdutcResponseDto } from 'src/domain/types/products/products.dto';
+import { IProdutc, ProductRequestDto, ProductSearchRequestDto, ProdutcResponseDto } from 'src/domain/types/products/products.dto';
 
 @ApiTags('Products')
 @ApiBearerAuth()
@@ -14,13 +14,12 @@ export class ProductsController {
       private readonly service: ProductsService 
    ) {}
 
-   @Get('')
+   @Get()
    @HttpCode(HttpStatus.OK)
    @ApiOperation({ summary: 'Get products', description: 'You can get all products' })
-   @ApiResponse({ status: 200, description: 'Getting all the users', type: [ProdutcResponseDto] })
+   @ApiResponse({ status: 200, description: 'Getting all the products', type: [ProdutcResponseDto] })
    @ApiResponse({ status: 403, description: 'Forbidden.'})
    @UseGuards(AuthGuard)
-   @Get()
    async get(
       @Res() res: Response
    ): Promise<Response<Promise<ProdutcResponseDto[]>>> {
@@ -34,6 +33,11 @@ export class ProductsController {
    }
 
    @Get('/:id')
+   @HttpCode(HttpStatus.OK)
+   @ApiOperation({ summary: 'Get one products', description: 'You can get one product' })
+   @ApiResponse({ status: 200, description: 'Getting one product', type: ProdutcResponseDto })
+   @ApiResponse({ status: 403, description: 'Forbidden.'})
+   @UseGuards(AuthGuard)
    async getUnique(
       @Param('id') id: string, 
       @Res() res: Response
@@ -48,8 +52,14 @@ export class ProductsController {
    }
 
    @Post('search')
+   @HttpCode(HttpStatus.OK)
+   @ApiBody({ type: ProductSearchRequestDto })
+   @ApiOperation({ summary: 'Search products', description: 'You can search a product' })
+   @ApiResponse({ status: 200, description: 'Searching the product', type: ProdutcResponseDto })
+   @ApiResponse({ status: 403, description: 'Forbidden.'})
+   @UseGuards(AuthGuard)
    async search(
-      @Body() data: { name: string }, 
+      @Body() data: Partial<ProductSearchRequestDto>, 
       @Res() res: Response
    ): Promise<Response<Promise<ProdutcResponseDto[]>>> {
       const products: ProdutcResponseDto[] = await this.service.search(data.name);
@@ -62,6 +72,12 @@ export class ProductsController {
    }
 
    @Post('register')
+   @HttpCode(HttpStatus.CREATED)
+   @ApiBody({ type: ProductRequestDto })
+   @ApiOperation({ summary: 'Create a product', description: 'You can create a product' })
+   @ApiResponse({ status: 200, description: 'Creating the products', type: ProdutcResponseDto })
+   @ApiResponse({ status: 403, description: 'Forbidden.'})
+   @UseGuards(AuthGuard)
    async register(
       @Body() data: ProductRequestDto, 
       @Res() res: Response
@@ -73,6 +89,12 @@ export class ProductsController {
    }
 
    @Put('update/:id')
+   @HttpCode(HttpStatus.OK)
+   @ApiBody({ type: ProductRequestDto })
+   @ApiOperation({ summary: 'Update a products', description: 'You can update a product' })
+   @ApiResponse({ status: 200, description: 'Updating the product', type: ProdutcResponseDto })
+   @ApiResponse({ status: 403, description: 'Forbidden.'})
+   @UseGuards(AuthGuard)
    async update(
       @Param('id') id: string, 
       @Body() data: Partial<ProductRequestDto>, 
@@ -85,6 +107,11 @@ export class ProductsController {
    }
 
    @Delete('delete/:id')
+   @HttpCode(HttpStatus.OK)
+   @ApiOperation({ summary: 'Delete a product', description: 'You can delete a product' })
+   @ApiResponse({ status: 200, description: 'Updating the product', type: ProdutcResponseDto })
+   @ApiResponse({ status: 403, description: 'Forbidden.'})
+   @UseGuards(AuthGuard)
    async delete(
       @Param('id') id: string, 
       @Res() res: Response
