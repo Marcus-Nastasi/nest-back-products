@@ -1,21 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { AuthService } from '../auth/auth.service';
-import { ISales, SalesRegisterDTO } from 'src/domain/types/sales/ISales';
+import { SalesRequestDto, SalesResponseDto } from 'src/domain/types/sales/sales.dto';
 
 @Injectable()
 export class SalesService {
-   constructor(private readonly prisma: PrismaService, private readonly auth: AuthService) {}
+   constructor(private readonly prisma: PrismaService) {}
 
-   async get(): Promise<ISales[]> {
+   async get(): Promise<SalesResponseDto[]> {
       return await this.prisma.sales.findMany();
    }
 
-   async register(data: SalesRegisterDTO): Promise<ISales> {
+   async register(data: SalesRequestDto): Promise<SalesResponseDto> {
       return await this.prisma.sales.create({ data });
    }
 
-   async update(id: number, data: SalesRegisterDTO): Promise<ISales> {
+   async update(
+      id: number, data: Partial<SalesRequestDto>
+   ): Promise<SalesResponseDto> {
       return await this.prisma.sales.update({ 
          where: {
             id: id 
@@ -24,7 +25,7 @@ export class SalesService {
       });
    }
 
-   async delete(id: number): Promise<ISales> {
+   async delete(id: number): Promise<SalesResponseDto> {
       return await this.prisma.sales.delete({ 
          where: { 
             id: id 

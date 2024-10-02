@@ -1,20 +1,30 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
+import { AuthGuard } from 'src/app/services/auth/auth.guard';
 
-import { IProdutc, ProductRegisterDTO } from 'src/domain/types/products/IProduct';
 import { ProductsService } from 'src/app/services/products/products.service';
+import { ProductRequestDto, ProdutcResponseDto } from 'src/domain/types/products/products.dto';
 
+@ApiTags('Products')
+@ApiBearerAuth()
 @Controller('products')
 export class ProductsController {
    constructor(
       private readonly service: ProductsService 
    ) {}
 
+   @Get('')
+   @HttpCode(HttpStatus.OK)
+   @ApiOperation({ summary: 'Get products', description: 'You can get all products' })
+   @ApiResponse({ status: 200, description: 'Getting all the users', type: [ProdutcResponseDto] })
+   @ApiResponse({ status: 403, description: 'Forbidden.'})
+   @UseGuards(AuthGuard)
    @Get()
    async get(
       @Res() res: Response
-   ): Promise<Response<Promise<IProdutc[]>>> {
-      const products: Array<IProdutc> = await this.service.get();
+   ): Promise<Response<Promise<ProdutcResponseDto[]>>> {
+      const products: Array<ProdutcResponseDto> = await this.service.get();
       if (!products.length) return res
          .status(HttpStatus.NO_CONTENT)
          .end();
@@ -27,8 +37,8 @@ export class ProductsController {
    async getUnique(
       @Param('id') id: string, 
       @Res() res: Response
-   ): Promise<Response<Promise<IProdutc>>> {
-      const product: IProdutc = await this.service.getUnique(Number(id));
+   ): Promise<Response<Promise<ProdutcResponseDto>>> {
+      const product: ProdutcResponseDto = await this.service.getUnique(Number(id));
       if (!product) return res
          .status(HttpStatus.NO_CONTENT)
          .end();
@@ -41,8 +51,8 @@ export class ProductsController {
    async search(
       @Body() data: { name: string }, 
       @Res() res: Response
-   ): Promise<Response<Promise<IProdutc[]>>> {
-      const products: IProdutc[] = await this.service.search(data.name);
+   ): Promise<Response<Promise<ProdutcResponseDto[]>>> {
+      const products: ProdutcResponseDto[] = await this.service.search(data.name);
       if (!products.length) return res
          .status(HttpStatus.NO_CONTENT)
          .end();
@@ -53,10 +63,10 @@ export class ProductsController {
 
    @Post('register')
    async register(
-      @Body() data: ProductRegisterDTO, 
+      @Body() data: ProductRequestDto, 
       @Res() res: Response
-   ): Promise<Response<Promise<IProdutc>>> {
-      const product: IProdutc = await this.service.register(data);
+   ): Promise<Response<Promise<ProdutcResponseDto>>> {
+      const product: ProdutcResponseDto = await this.service.register(data);
       return res
          .status(201)
          .json({ product });
@@ -65,10 +75,10 @@ export class ProductsController {
    @Put('update/:id')
    async update(
       @Param('id') id: string, 
-      @Body() data: ProductRegisterDTO, 
+      @Body() data: Partial<ProductRequestDto>, 
       @Res() res: Response
-   ): Promise<Response<Promise<IProdutc>>> {
-      const product: IProdutc = await this.service.update(Number(id), data);
+   ): Promise<Response<Promise<ProdutcResponseDto>>> {
+      const product: ProdutcResponseDto = await this.service.update(Number(id), data);
       return res
          .status(201)
          .json({ product });
@@ -78,8 +88,8 @@ export class ProductsController {
    async delete(
       @Param('id') id: string, 
       @Res() res: Response
-   ): Promise<Response<Promise<IProdutc>>> {
-      const product: IProdutc = await this.service.delete(Number(id));
+   ): Promise<Response<Promise<ProdutcResponseDto>>> {
+      const product: ProdutcResponseDto = await this.service.delete(Number(id));
       return res
          .status(202)
          .json({ product });

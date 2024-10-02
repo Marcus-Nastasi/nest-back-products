@@ -13,11 +13,24 @@ export class ISales {
    date: Date;
 }
 
-export class SalesRegisterDTO {
+export class SalesRequestDto {
    @ApiProperty()
    userId: number;
    @ApiProperty()
    productId: number;
    @ApiProperty()
    quantity: number;
+}
+
+export class SalesResponseDto {
+   @ApiProperty()
+   id: number;
+   @ApiProperty()
+   userId: number;
+   @ApiProperty()
+   productId: number;
+   @ApiProperty()
+   quantity: number;
+   @ApiProperty()
+   date: Date;
 }
