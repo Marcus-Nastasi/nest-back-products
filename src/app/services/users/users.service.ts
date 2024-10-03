@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 import { PrismaService } from '../prisma/prisma.service';
@@ -15,10 +15,10 @@ export class UsersService {
    }
 
    async register(data: UserRequestDto): Promise<UserResponseDto> {
-      if (!data.password) return null;
+      if (!data.password) throw new BadRequestException();
       data.password = await bcrypt.hash(data.password, 10);
       const user: UserResponseDto = await this.prisma.users.create({ data });
-      if (!user) return null;
+      if (!user) throw new BadRequestException();
       return user;
    }
 
@@ -28,9 +28,9 @@ export class UsersService {
             id: id 
          } 
       });
-      if (!user) return null;
+      if (!user) throw new NotFoundException();
       const validPass: boolean = await bcrypt.compare(data.current_password, user.password);
-      if (!validPass) return null;
+      if (!validPass) throw new ForbiddenException();
       user.name = data.name;
       user.cpf = data.cpf;
       user.password = await bcrypt.hash(data.new_password, 10);
@@ -39,7 +39,7 @@ export class UsersService {
             id: id 
          }, data: user 
       });
-      if (!updated) return null;
+      if (!updated) throw new BadRequestException();
       return updated; 
    }
 
@@ -49,7 +49,7 @@ export class UsersService {
             id: id 
          } 
       });
-      if (!deleted) return null;
+      if (!deleted) throw new BadRequestException();
       return deleted;
    }
 }

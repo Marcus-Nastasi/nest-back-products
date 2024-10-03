@@ -4,7 +4,7 @@ import { Response } from 'express';
 import { AuthGuard } from 'src/app/services/auth/auth.guard';
 
 import { ProductsService } from 'src/app/services/products/products.service';
-import { IProdutc, ProductRequestDto, ProductSearchRequestDto, ProdutcResponseDto } from 'src/domain/types/products/products.dto';
+import { ProductRequestDto, ProductSearchRequestDto, ProdutcResponseDto } from 'src/domain/types/products/products.dto';
 
 @ApiTags('Products')
 @ApiBearerAuth()

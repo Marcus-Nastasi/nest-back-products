@@ -11,10 +11,10 @@ export class AuthService {
       private readonly prisma: PrismaService
    ) {}
 
-   public async generateToken(cpf: string): Promise<string> {
+   public async generateToken(user: IUser): Promise<string> {
       try {
          const token: string = jwt.sign(
-            { cpf: cpf },
+            { user },
             process.env.TOKEN_SECRET,
             { expiresIn: '1d' }
          );
@@ -37,7 +37,7 @@ export class AuthService {
       const user: IUser | null = await this.getUser(data);
       if (!user) return null;
       if (!(await bcryprt.compare(data.password, user.password))) return null;
-      const token: string = await this.generateToken(user.cpf);
+      const token: string = await this.generateToken(user);
       if (!token) return null;
       return { 
          id: user.id, 
