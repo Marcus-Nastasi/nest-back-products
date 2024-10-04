@@ -11,7 +11,11 @@ export class UsersService {
    ) {}
 
    async get(): Promise<UserResponseDto[]> {
-      return await this.prisma.users.findMany();
+      return await this.prisma.users.findMany({
+         include: {
+            sales: true
+         }
+      });
    }
 
    async register(data: UserRequestDto): Promise<UserResponseDto> {

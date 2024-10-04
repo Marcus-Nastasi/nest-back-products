@@ -29,7 +29,7 @@ export class ProductsController {
          .end();
       return res
          .status(200)
-         .json({ products });
+         .json(products);
    }
 
    @Get('/:id')
@@ -48,7 +48,7 @@ export class ProductsController {
          .end();
       return res
          .status(200)
-         .json({ product });
+         .json(product);
    }
 
    @Post('search')
@@ -68,7 +68,7 @@ export class ProductsController {
          .end();
       return res
          .status(200)
-         .json({ products });
+         .json(products);
    }
 
    @Post('register')
@@ -85,7 +85,7 @@ export class ProductsController {
       const product: ProdutcResponseDto = await this.service.register(data);
       return res
          .status(201)
-         .json({ product });
+         .json(product);
    }
 
    @Put('update/:id')
@@ -103,7 +103,7 @@ export class ProductsController {
       const product: ProdutcResponseDto = await this.service.update(Number(id), data);
       return res
          .status(201)
-         .json({ product });
+         .json(product);
    }
 
    @Delete('delete/:id')
@@ -119,6 +119,6 @@ export class ProductsController {
       const product: ProdutcResponseDto = await this.service.delete(Number(id));
       return res
          .status(202)
-         .json({ product });
+         .json(product);
    }
 }

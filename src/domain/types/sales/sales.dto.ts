@@ -1,4 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger"
+import { IProdutc } from "../products/products.dto";
+import { IUser } from "../users/user.dto";
 
 export class ISales {
    @ApiProperty()
@@ -33,4 +35,8 @@ export class SalesResponseDto {
    quantity: number;
    @ApiProperty()
    date: Date;
+   @ApiProperty()
+   product: IProdutc;
+   @ApiProperty()
+   user: IUser;
 }

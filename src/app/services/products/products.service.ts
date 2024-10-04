@@ -26,7 +26,7 @@ export class ProductsService {
       return await this
          .prisma
          .$queryRaw
-         `SELECT * FROM products WHERE LOWER(name) LIKE CONCAT('%', CONCAT(${name}, '%'));`;
+         `SELECT * FROM products WHERE LOWER(name) LIKE LOWER(CONCAT('%', CONCAT(${name}, '%')));`;
    }
 
    async register(data: ProductRequestDto): Promise<ProdutcResponseDto> {

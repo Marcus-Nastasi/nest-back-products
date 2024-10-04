@@ -18,6 +18,7 @@ model Users {
    name        String
    cpf         String
    password    String
+   sales       Sales[]
 
    @@map("users")
 }
@@ -28,16 +29,20 @@ model Products {
   description   String?
   price         Float
   quantity      Int
+  sales         Sales[]
 
    @@map("products")
 }
 
 model Sales {
-  id          Int      @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   userId      Int
   productId   Int
   quantity    Int
-  date        DateTime @default(now())
+  date        DateTime    @default(now())
+
+  user        Users       @relation(fields: [userId], references: [id])
+  product     Products    @relation(fields: [productId], references: [id])
 
    @@map("sales")
 }
@@ -49,4 +54,3 @@ model Expenses {
 
    @@map("expenses")
 }
-
